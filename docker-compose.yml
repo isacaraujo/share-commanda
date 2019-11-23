@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+  cm-app:
+    image: node:13.1.0-stretch
+    container_name: cm-app
+    hostname: cm-app
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    user: node
+    ports:
+      - 3000:3000/tcp
+    networks:
+      - backend
+    volumes:
+      - ./:/var/www
+    environment:
+      - NODE_ENV=development
+    working_dir: /var/www
+    command: npm run start
+
+networks:
+  backend:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.28.0.0/24
